@@ -1,13 +1,16 @@
 body {
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 18px;
-}
-
-button {
   font-size: 14px;
 }
 
-figcaption {
-  font-size: 14px;
+@media screen and (max-width: 768px) {
+  .add-gifs-section {
+    margin-top: 40px;
+  }
 }
 
+@media screen and (max-width: 640px) {
+  .add-gifs-section {
+    margin-top: 80px;
+  }
+}
