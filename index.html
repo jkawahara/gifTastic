@@ -5,35 +5,53 @@
   <title>GifTastic</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
     
-  <!-- Reset styling -->
-  <link rel="stylesheet" type="text/css" media="screen" href="assets/css/reset.css" />
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
   <!-- Custom styling -->
   <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css" />
 </head>
 
-<body>
+<body class="p-3 bg-light text-dark">
   <header>
-    <h1 class="title">GifTastic</h1>
+    <h1 class="title">Search for Your GifTastic Celebrations!</h1>
   </header>
   
-  <section class="main-display-section">
-    <article class="button-section"></article>
-    
-    <form class="form-section">
-      <label for="search">Enter search topic to be added</label>
-      <input type="text" id="add-search-input" required="required">
-      <input type="submit" id="add-search-submit">
-    </form>
+  <div class="container-fluid">
+    <div class="row mb-4">
+      <!-- Topic Buttons -->
+      <section class="col-lg-12 button-section ml-auto">
+      </section>
+    </div>
 
-    <article class="add-gifs-section"></article>
-    
-    <article class="gif-section"></article>
-    
-  </section>
+    <div class="row">
+      <!-- Display gifs -->
+      <section class="col-md-9 gif-section float-left">
+      </section>
 
-  <footer>
-    <!-- Not used -->
+      <!-- Aside -->
+      <section class="sidebar col-md-3">
+        <!-- Form -->
+        <div class="row d-flex justify-content-end">
+          <form class="col-md-12 form-section">
+            <label for="search">Enter topic for new search button</label>
+            <input type="text" id="add-search-input" required="required">
+            <input class="btn btn-primary btn-sm m-1" type="submit" id="add-search-submit">
+          </form>
+        </div>
+
+        <!-- Add gifs Button -->
+        <div class="row d-flex justify-content-end">
+          <section class="col-md-12 m-1 add-gifs-section">
+          </section>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="fixed-bottom row">
+    <div class="container col-lg-12"> 
+    </div>
   </footer>
 
   <!-- jQuery Library -->

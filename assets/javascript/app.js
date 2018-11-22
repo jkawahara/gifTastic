@@ -16,7 +16,7 @@ $(document).ready(function() {
   function displayButtons() {
     $(".button-section").empty();
     for (var i = 0; i < topics.length; i++) {
-      $(".button-section").append(`<button data-label="${topics[i]}">${topics[i]}</button>`);
+      $(".button-section").append(`<button class="btn btn-primary btn-sm mr-1 mb-1" data-label="${topics[i]}">${topics[i]}</button>`);
     }
   }
 
@@ -39,15 +39,18 @@ $(document).ready(function() {
   function displayGifs() {
     // Display static gifs and ratings
     for (var i = 0; i < 10; i++) {
-      var newGif = $("<p>");
-      // Rating of object
-      newGif.text(`Rating: ${giphyData.data[i].rating}`);
+      var newGif = $("<p class='float-left mr-3'>");
       
       // Add still image element with still and animate data states  
-      newGif.prepend(`<img class="gif" src="${giphyData.data[i].images.fixed_height_still.url}" data-state="still" data-still="${giphyData.data[i].images.fixed_height_still.url}" data-animate="${giphyData.data[i].images.fixed_height.url}" alt="${giphyData.data[i].images.fixed_height_still.url}">`);
+      newGif.append(`<img class="gif" src="${giphyData.data[i].images.fixed_height_still.url}" data-state="still" data-still="${giphyData.data[i].images.fixed_height_still.url}" data-animate="${giphyData.data[i].images.fixed_height.url}" alt="${giphyData.data[i].images.fixed_height_still.url}">`);
+      
+      // Metadata of object
+      newGif.append(`<figcaption>Slug: ${giphyData.data[i].slug.substring(0, 24)}</figcaption>`);
+      newGif.append(`<figcaption>Type: ${giphyData.data[i].type.substring(0, 24)}</figcaption>`);
+      newGif.append(`<figcaption>Rating: ${giphyData.data[i].rating}</figcaption>`);
 
       // Append to gif section
-      $(".gif-section").append(newGif);
+      $(".gif-section").prepend(newGif);
     }
   }
 
@@ -84,7 +87,7 @@ $(document).ready(function() {
       queryOffset = 0;
       $(".gif-section, .add-gifs-section").empty();
       // Add button to display 10 additional gifs
-      $(".add-gifs-section").append(`<button id="add-gifs-btn" data-label="${$(this).attr("data-label")}">Add 10 more gifs</button>`)
+      $(".add-gifs-section").append(`<button class="btn btn-primary btn-sm m-1" id="add-gifs-btn" data-label="${$(this).attr("data-label")}">Add 10 more gifs</button>`)
     }
     // Declare queryURL by calling queryBuilder function, passing data-label and offset
     var queryURL = queryBuilder($(this).attr("data-label"), queryOffset);
