@@ -8,6 +8,7 @@ $(document).ready(function() {
   
   var giphyData; // API search response
   var queryOffset; // Query offset parameter
+  var clickedGif = ""; // Last clicked gif image--> holder for potentially adding to favorite gifs
 
   // FUNCTIONS
   // =========
@@ -39,13 +40,14 @@ $(document).ready(function() {
   function displayGifs() {
     // Display static gifs and ratings
     for (var i = 0; i < 10; i++) {
-      var newGif = $("<p class='float-left mr-3'>");
+      var newGif = $(`<p class="float-left mr-3" id="${giphyData.data[i].id}">`);
       
       // Add still image element with still and animate data states  
-      newGif.append(`<img class="gif" src="${giphyData.data[i].images.fixed_height_still.url}" data-state="still" data-still="${giphyData.data[i].images.fixed_height_still.url}" data-animate="${giphyData.data[i].images.fixed_height.url}" alt="${giphyData.data[i].images.fixed_height_still.url}">`);
+      newGif.append(`<img class="gif" id="${giphyData.data[i].id}" src="${giphyData.data[i].images.fixed_height_still.url}" data-state="still" data-still="${giphyData.data[i].images.fixed_height_still.url}" data-animate="${giphyData.data[i].images.fixed_height.url}" alt="${giphyData.data[i].images.fixed_height_still.url}">`);
       
-      // Metadata of object
+      // Metadata of object: slug, ID, Type, Rating
       newGif.append(`<figcaption>Slug: ${giphyData.data[i].slug.substring(0, 24)}</figcaption>`);
+      newGif.append(`<figcaption>ID: ${giphyData.data[i].id.substring(0, 24)}</figcaption>`);
       newGif.append(`<figcaption>Type: ${giphyData.data[i].type.substring(0, 24)}</figcaption>`);
       newGif.append(`<figcaption>Rating: ${giphyData.data[i].rating}</figcaption>`);
 
@@ -64,6 +66,7 @@ $(document).ready(function() {
       $(this).attr("src", $(this).attr("data-still"));
       $(this).attr("data-state", "still");
     }
+    clickedGif = $(this).parent();
   }
 
   // Add query buttons
@@ -82,7 +85,7 @@ $(document).ready(function() {
   
   // Listen for buttons click to initiate API search
   $(document).on("click", ".button-section > button, #add-gifs-btn", function() {
-    // Check if adding additional gifs or initial query; 
+    // Check if adding additional gifs else initial query; 
     if ($(this).attr("id") === "add-gifs-btn") {
       queryOffset += 10;
     } else {
@@ -90,6 +93,8 @@ $(document).ready(function() {
       $(".gif-section, .add-gifs-section").empty();
       // Add button to display 10 additional gifs
       $(".add-gifs-section").append(`<button class="btn btn-primary btn-sm m-1" id="add-gifs-btn" data-label="${$(this).attr("data-label")}">Add 10 more gifs</button>`)
+      // Add button to select favorite gifs
+      $(".add-gifs-section").append('<button class="btn btn-primary btn-sm m-1" id="add-favs-btn">Add last clicked gif to Favorites</button>')
     }
     // Declare queryURL by calling queryBuilder function, passing data-label and offset
     var queryURL = queryBuilder($(this).attr("data-label"), queryOffset);
@@ -104,6 +109,11 @@ $(document).ready(function() {
       displayGifs();
     });
 
+  });
+
+  // Listen for Favorites button
+  $(document).on("click", "#add-favs-btn", function() {
+    $(".fav-section").append(clickedGif);
   });
 
   // Listen for image click to call imgToggler function
