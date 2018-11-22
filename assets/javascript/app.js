@@ -69,9 +69,11 @@ $(document).ready(function() {
   // Add query buttons
   function queryButton() {
     event.preventDefault();
-    topics.push($("#add-search-input").val().trim());
-    $("#add-search-input").val("");
-    displayButtons();
+    if ($("#add-search-input").val().trim() !== "") {
+      topics.push($("#add-search-input").val().trim());
+      $("#add-search-input").val("");
+      displayButtons();
+    }
   }
   
 
