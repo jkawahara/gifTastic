@@ -4,12 +4,15 @@ $(document).ready(function() {
   // =========
 
   // Declare array of strings
-  var topics = ["chocolate lab", "russian blue cat", "pixie-bob", "hummingbird", "gray squirrel", "skunk", "eagle", "quail", "rattlesnake", "goat", "cow", "pig", "chicken", "spider", "June bug", "owl", "bee", "wasp", "dolphin", "whale"];
+  var topics = ["new year", "chinese new year", "groundhog day", "valentine's day", "daylight saving time", "st. patrick's day", "april fool's day", "tax day", "cinco de mayo", "mardi gras", "mother's day", "memorial day", "father's day", "independence day", "labor day", "halloween", "thanksgiving", "christmas"];
+  
+  var giphyData; // API search response
+  var queryOffset; // Query offset parameter
 
   // FUNCTIONS
   // =========
 
-  // Display buttons of array elements
+  // Display buttons of array elements after page load
   function displayButtons() {
     $(".button-section").empty();
     for (var i = 0; i < topics.length; i++) {
@@ -18,23 +21,23 @@ $(document).ready(function() {
   }
 
   // Build query for AJAX request
-  function queryBuilder(animal) {
+  function queryBuilder(topic, offset) {
     // Giphy Search Endpoint
     queryURL = "https://api.giphy.com/v1/gifs/search?";
     queryParams = {
       "api_key": "hcBcx9BTBmEP8j639mgYzTU1FLGFc0hc",
-      "q": animal
+      "q": topic,
+      "limit": 10,
+      "offset": offset,
     }
 
-    // Return URL + serialized params
+    // Return URL + serialized params for API search
     return queryURL + $.param(queryParams);
   }
-
-  // Display gifs with JSON object from API search result
-  function displayGifs(giphyData) {
-    $(".gif-section").empty();
-
-    // Display 10 ratings with static gifs
+  
+  // Display gifs with JSON object from API search result 
+  function displayGifs() {
+    // Display static gifs and ratings
     for (var i = 0; i < 10; i++) {
       var newGif = $("<p>");
       // Rating of object
@@ -63,32 +66,45 @@ $(document).ready(function() {
   // Add query buttons
   function queryButton() {
     event.preventDefault();
-    topics.push($("#add-animal-input").val().trim());
-    console.log(topics);
-    $("#add-animal-input").val("");
+    topics.push($("#add-search-input").val().trim());
+    $("#add-search-input").val("");
     displayButtons();
   }
+  
 
   // MAIN CONTROLLER
   displayButtons();
   
-  // Listen for button click to initiate API search
-  $(document).on("click", ".button-section > button", function() {
-    // Declare variables for API search
-    var queryURL = queryBuilder($(this).attr("data-label"));
+  // Listen for buttons click to initiate API search
+  $(document).on("click", ".button-section > button, #add-gifs-btn", function() {
+    // Check if adding additional gifs or initial query; 
+    if ($(this).attr("id") === "add-gifs-btn") {
+      queryOffset += 10;
+    } else {
+      queryOffset = 0;
+      $(".gif-section, .add-gifs-section").empty();
+      // Add button to display 10 additional gifs
+      $(".add-gifs-section").append(`<button id="add-gifs-btn" data-label="${$(this).attr("data-label")}">Add 10 more gifs</button>`)
+    }
+    // Declare queryURL by calling queryBuilder function, passing data-label and offset
+    var queryURL = queryBuilder($(this).attr("data-label"), queryOffset);
 
     // AJAX request to API search, responding with JSON object, which is passed to displayGifs function
     $.ajax( {
       url: queryURL,
       method: "GET"
-    }).then(displayGifs);
+    }).then(function(response) {
+      giphyData = response;
+      // Call displayGifs function 
+      displayGifs();
+    });
 
   });
 
   // Listen for image click to call imgToggler function
   $(document).on("click", ".gif", imgToggler);
 
-  // Listen for form submit to call queryButton function
-  $("#add-animal-submit").on("click", queryButton);
+  // Listen for add search submit to call queryButton function
+  $("#add-search-submit").on("click", queryButton);
 
 });
