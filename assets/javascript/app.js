@@ -40,7 +40,7 @@ $(document).ready(function() {
   function displayGifs() {
     // Display static gifs and ratings
     for (var i = 0; i < 10; i++) {
-      var newGif = $(`<p class="float-left mr-3" id="${giphyData.data[i].id}">`);
+      var newGif = $(`<p class="float-left mr-3">`);
       
       // Add still image element with still and animate data states  
       newGif.append(`<img class="gif" id="${giphyData.data[i].id}" src="${giphyData.data[i].images.fixed_height_still.url}" data-state="still" data-still="${giphyData.data[i].images.fixed_height_still.url}" data-animate="${giphyData.data[i].images.fixed_height.url}" alt="${giphyData.data[i].images.fixed_height_still.url}">`);
@@ -67,7 +67,7 @@ $(document).ready(function() {
       $(this).attr("data-state", "still");
     }
     clickedGif = $(this).parent();
-  }
+  } 
 
   // Add query buttons
   function queryButton() {
@@ -92,9 +92,9 @@ $(document).ready(function() {
       queryOffset = 0;
       $(".gif-section, .add-gifs-section").empty();
       // Add button to display 10 additional gifs
-      $(".add-gifs-section").append(`<button class="btn btn-primary btn-sm m-1" id="add-gifs-btn" data-label="${$(this).attr("data-label")}">Add 10 more gifs</button>`)
+      $(".add-gifs-section").append(`<button class="btn btn-primary btn-sm float-right m-1" id="add-gifs-btn" data-label="${$(this).attr("data-label")}">Add 10 more gifs</button>`)
       // Add button to select favorite gifs
-      $(".add-gifs-section").append('<button class="btn btn-primary btn-sm m-1" id="add-favs-btn">Add last clicked gif to Favorites</button>')
+      $(".add-gifs-section").append('<button class="btn btn-primary btn-sm float-right m-1" id="add-favs-btn">Add last clicked gif to Favorites</button>')
     }
     // Declare queryURL by calling queryBuilder function, passing data-label and offset
     var queryURL = queryBuilder($(this).attr("data-label"), queryOffset);
