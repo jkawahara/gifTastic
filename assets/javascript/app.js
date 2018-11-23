@@ -40,17 +40,15 @@ $(document).ready(function() {
   function displayGifs() {
     // Display static gifs and ratings
     for (var i = 0; i < 10; i++) {
-      var newGif = $(`<a class="float-left mr-3 mb-3">`);
-      
+      var newGif = $(`<a class="float-left mr-3 mb-3 gif-container">`);
       // Add still image element with still and animate data states  
       newGif.append(`<img class="gif" id="${giphyData.data[i].id}" src="${giphyData.data[i].images.fixed_height_still.url}" data-state="still" data-still="${giphyData.data[i].images.fixed_height_still.url}" data-animate="${giphyData.data[i].images.fixed_height.url}" alt="${giphyData.data[i].images.fixed_height_still.url}">`);
-      
       // Metadata of object: slug, ID, Type, Rating
       newGif.append(`<figcaption>Slug: ${giphyData.data[i].slug.substring(0, 24)}</figcaption>`);
       newGif.append(`<figcaption>ID: ${giphyData.data[i].id.substring(0, 24)}</figcaption>`);
       newGif.append(`<figcaption>Type: ${giphyData.data[i].type.substring(0, 24)}</figcaption>`);
       newGif.append(`<figcaption>Rating: ${giphyData.data[i].rating}</figcaption>`);
-      // newGif.append(`<button>Download`)
+      newGif.append(`<button id="${giphyData.data[i].id}" download>Download</button>`)
 
       // Append to gif section
       $(".gif-section").prepend(newGif);
@@ -58,10 +56,10 @@ $(document).ready(function() {
   }
 
   // Display gifs buttons
-  function displayAddBtns() {
+  function displayAddBtns(dataLabel) {
     $(".gif-section, .add-gifs-section").empty();
     // Add button to display 10 additional gifs
-    $(".add-gifs-section").append(`<button class="btn btn-primary btn-sm float-right m-1" id="add-gifs-btn" data-label="${$(this).attr("data-label")}">Add 10 more gifs</button>`)
+    $(".add-gifs-section").append(`<button class="btn btn-primary btn-sm float-right m-1" id="add-gifs-btn" data-label="${dataLabel}">Add 10 more gifs</button>`)
     // Add button to select favorite gifs
     $(".add-gifs-section").append('<button class="btn btn-primary btn-sm float-right m-1" id="add-favs-btn">Add last clicked gif to Favorites</button>')
   }
@@ -88,7 +86,7 @@ $(document).ready(function() {
       displayButtons();
     }
   }
-  
+
 
   // MAIN CONTROLLER
   displayButtons();
@@ -100,7 +98,7 @@ $(document).ready(function() {
       queryOffset += 10;
     } else {
       queryOffset = 0;
-      displayAddBtns();
+      displayAddBtns($(this).attr("data-label"));
     }
     // Declare queryURL by calling queryBuilder function, passing data-label and offset
     var queryURL = queryBuilder($(this).attr("data-label"), queryOffset);
@@ -127,5 +125,4 @@ $(document).ready(function() {
 
   // Listen for add search submit to call queryButton function
   $("#add-search-submit").on("click", queryButton);
-
 });
