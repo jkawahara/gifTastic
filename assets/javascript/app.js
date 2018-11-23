@@ -56,6 +56,15 @@ $(document).ready(function() {
     }
   }
 
+  // Display gifs buttons
+  function displayAddBtns() {
+    $(".gif-section, .add-gifs-section").empty();
+    // Add button to display 10 additional gifs
+    $(".add-gifs-section").append(`<button class="btn btn-primary btn-sm float-right m-1" id="add-gifs-btn" data-label="${$(this).attr("data-label")}">Add 10 more gifs</button>`)
+    // Add button to select favorite gifs
+    $(".add-gifs-section").append('<button class="btn btn-primary btn-sm float-right m-1" id="add-favs-btn">Add last clicked gif to Favorites</button>')
+  }
+
   // Toggle still <--> animate images
   function imgToggler() {
     // Check if current image is still or animate and toggle
@@ -90,11 +99,7 @@ $(document).ready(function() {
       queryOffset += 10;
     } else {
       queryOffset = 0;
-      $(".gif-section, .add-gifs-section").empty();
-      // Add button to display 10 additional gifs
-      $(".add-gifs-section").append(`<button class="btn btn-primary btn-sm float-right m-1" id="add-gifs-btn" data-label="${$(this).attr("data-label")}">Add 10 more gifs</button>`)
-      // Add button to select favorite gifs
-      $(".add-gifs-section").append('<button class="btn btn-primary btn-sm float-right m-1" id="add-favs-btn">Add last clicked gif to Favorites</button>')
+      displayAddBtns();
     }
     // Declare queryURL by calling queryBuilder function, passing data-label and offset
     var queryURL = queryBuilder($(this).attr("data-label"), queryOffset);
