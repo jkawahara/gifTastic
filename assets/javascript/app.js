@@ -40,7 +40,7 @@ $(document).ready(function() {
   function displayGifs() {
     // Display static gifs and ratings
     for (var i = 0; i < 10; i++) {
-      var newGif = $(`<p class="float-left mr-3">`);
+      var newGif = $(`<a class="float-left mr-3 mb-3">`);
       
       // Add still image element with still and animate data states  
       newGif.append(`<img class="gif" id="${giphyData.data[i].id}" src="${giphyData.data[i].images.fixed_height_still.url}" data-state="still" data-still="${giphyData.data[i].images.fixed_height_still.url}" data-animate="${giphyData.data[i].images.fixed_height.url}" alt="${giphyData.data[i].images.fixed_height_still.url}">`);
@@ -50,6 +50,7 @@ $(document).ready(function() {
       newGif.append(`<figcaption>ID: ${giphyData.data[i].id.substring(0, 24)}</figcaption>`);
       newGif.append(`<figcaption>Type: ${giphyData.data[i].type.substring(0, 24)}</figcaption>`);
       newGif.append(`<figcaption>Rating: ${giphyData.data[i].rating}</figcaption>`);
+      // newGif.append(`<button>Download`)
 
       // Append to gif section
       $(".gif-section").prepend(newGif);
